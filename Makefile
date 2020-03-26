@@ -8,7 +8,7 @@ cli:
 
 .PHONY: release-cli
 release-cli:
-	bash .scripts/release.sh
+	bash .scripts/cli.sh
 
 # cleanup dependencies and download missing ones
 .PHONY: deps
