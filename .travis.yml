@@ -1,0 +1,32 @@
+language: go
+go:
+- 1.13.x
+env:
+  global:
+  - GO111MODULE=on
+  - GOPRIVATE=github.com/RTradeLtd/*
+install:
+- go mod download
+before_script:
+- go vet ./...
+- go build ./...
+- go test -run xxxx ./...
+script:
+- go test -race -short -coverprofile=coverage.txt ./...
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+cache:
+  directories:
+  - "$GOPATH/pkg/mod"
+  - "$HOME/.cache/go-build"
+before_deploy:
+  - make release-cli
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: CzA0cZSOROoxyWtaCN76q15DohM3mQIDsY0LKQbxIvGq1pYtsyExU8GzrGe+BEXwop70iCzBpY7JjlwmVjHouxTrn8vDFhupoo26NfoA01zy5bFpnnytfZCX9quVWquE/Vy53ZXFukUBYqk+Gp9vJE0CI1EqN8yoE1Ri02uXI4O1fBMcJY5k3ZGuC52y9fTdFJDA8MJHW2pkv7HL5dazqmhustY4FLpvc1T2C/GV3f86HkarkFDNOzF2InRkJmKQ+LxNbzenpwKIlplNKiXvgpcpZpWCLSSrry5NoFRHXrygw5IrwwOyx9bfSyJBnepXLVilDlbFFHTZIKxTsEiY15NyAAb4wLGD+//b7NVdXFNXuCeh6Qp1xfBzI468KeRfxUT9zCWKMFxAbCnDb5tFOWDLNJitqugvAuoMP4p3NCG5Pf6EAlkry87ZXLLcpRLrbV/BKaVKxklnqHPErrIN+PC160qe2Lz5jAPaS7fR8W0xH6tHwysbcVTqTUzs3IZh+cyWzI+1x4GqLeqnr9HwS/NnC3tKi20MClwOznUj1iY55gyRbU76JOWsPf63FhGnX7aMlaEpMYJtt2cpm/QxM2i4k7FIV8ppbwN6O66kEK8/WBosKBtn8910OnmdOBD1IuLRgjAXMdzRD/xOYQSFwmksD5IJgC3K8+GXbg/F8lc=
+  file: release/tex-cli
+  on:
+    tags: true
+    repo: RTradeLtd/go-temporalx-client
