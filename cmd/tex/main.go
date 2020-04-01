@@ -4,13 +4,11 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 
 	clientCmd "github.com/RTradeLtd/go-temporalx-sdk/cmd"
 	au "github.com/logrusorgru/aurora"
 	"github.com/urfave/cli/v2"
-
-	// auto register pprof handlers
-	_ "net/http/pprof"
 )
 
 // This is the main command line file for TemporalX
@@ -49,16 +47,45 @@ func main() {
 }
 
 func newApp() *cli.App {
+	cli.VersionPrinter = versionPrinter()
 	app := cli.NewApp()
 	app.Name = "tex-cli"
 	app.Usage = "TemporalX client cli"
 	app.Description = `
 This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
 `
+	app.Compiled = time.Now()
+	app.Copyright = "(c) 2020 RTrade Technologies Ltd"
 	app.Version = Version
 	app.Authors = loadAuthors()
 	app.Commands = LoadCommands()
 	return app
+}
+
+func versionPrinter() func(c *cli.Context) {
+	return func(c *cli.Context) {
+		var month, day string
+		if int(c.App.Compiled.Month()) < 10 {
+			month = fmt.Sprintf("0%v", int(c.App.Compiled.Month()))
+		} else {
+			month = fmt.Sprintf("%v", int(c.App.Compiled.Month()))
+		}
+		if c.App.Compiled.Day() < 10 {
+			day = fmt.Sprintf("0%v", c.App.Compiled.Day())
+		} else {
+			day = fmt.Sprintf("%v", c.App.Compiled.Day())
+		}
+		fmt.Fprintf(
+			c.App.Writer,
+			"version:\t\t%s\nreleased:\t\t%v-%v-%v %v:%v\n",
+			c.App.Version,
+			c.App.Compiled.Year(),
+			month,
+			day,
+			c.App.Compiled.Hour(),
+			c.App.Compiled.Minute(),
+		)
+	}
 }
 
 func loadAuthors() []*cli.Author {
