@@ -17,8 +17,14 @@ func loadP2PCommand() *cli.Command {
 		Description: "allows forwarding to/from libp2p, and local tcp/udp services. Think SSH tunnels but for libp2p",
 		Subcommands: cli.Commands{
 			&cli.Command{
-				Name:   "listen",
-				Usage:  "listen creates a libp2p service that will send connections to localhost",
+				Name:  "listen",
+				Usage: "listen creates a libp2p service that will send connections to localhost",
+				Description: `
+Used to create a libp2p service, which forwards connected to the target address.
+It requires specifying the libp2p protocol handler, and by default must be prefixed with "/x".
+The following command creates a libp2p service called dns that forwards connections to 127.0.0.1:53
+	tex-cli client node p2p --target.address /ip4/127.0.0.1/tcp/53 --protocol /x/dns				
+`,
 				Action: p2pAction,
 				Flags: p2pFlags(&cli.StringFlag{
 					Name:    "command",
@@ -27,8 +33,14 @@ func loadP2PCommand() *cli.Command {
 				}),
 			},
 			&cli.Command{
-				Name:   "forward",
-				Usage:  "forward connections from a local port to a libp2p service",
+				Name:  "forward",
+				Usage: "forward connections from a local port to a libp2p service",
+				Description: `
+Forwards connectinos to a libp2p service, and is the reverse of the litsen command.
+It requires specifying the libp2p protocol handler, and by default must be prefixed with "/x".
+The following commands forwards connections from 127.0.0.1:53 to a libp2p service called libdns to peer /p2p/temporalxisbest
+    tex-cli client node p2p --listen.address /ip4/127.0.0.1:53 --protocol /x/libdns --target.address /p2p/temporalxisbest
+`,
 				Action: p2pAction,
 				Flags: p2pFlags(&cli.StringFlag{
 					Name:    "command",

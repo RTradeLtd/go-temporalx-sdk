@@ -85,28 +85,36 @@ func p2pFlags(cmdFlag *cli.StringFlag) []cli.Flag {
 	}
 	return append([]cli.Flag{
 		&cli.BoolFlag{
-			Name: "all",
+			Name:  "all",
+			Usage: "close all listeners. used by: close",
 		},
 		&cli.BoolFlag{
-			Name: "verbose",
+			Name:  "verbose",
+			Usage: "print protocol, listen and target information. used by ls",
 		},
 		&cli.BoolFlag{
-			Name: "custom.protocols",
+			Name:  "custom.protocols",
+			Usage: "disables requiring /x/ prefix. used by: listen, forward",
 		},
 		&cli.BoolFlag{
-			Name: "report.peerid",
+			Name:  "report.peerid",
+			Usage: "send base58 peerID to target. used by: listen",
 		},
 		&cli.StringFlag{
-			Name: "protocol.name",
+			Name:  "protocol.name",
+			Usage: "match/set protocol name. used by: close, forward, listen",
 		},
 		&cli.StringFlag{
-			Name: "listen.address",
+			Name:  "listen.address",
+			Usage: "match/set against listen address. used by: close, forward",
 		},
 		&cli.StringFlag{
-			Name: "target.address",
+			Name:  "target.address",
+			Usage: "match/set against target address. used by: close, forward, listen",
 		},
 		&cli.StringFlag{
-			Name: "remote.address",
+			Name:  "remote.address",
+			Usage: "note currently used but here for compatability",
 		},
 	}, cmdFlag)
 }
