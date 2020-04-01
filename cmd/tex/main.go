@@ -51,10 +51,12 @@ func main() {
 func newApp() *cli.App {
 	app := cli.NewApp()
 	app.Name = "tex-cli"
-	app.Usage = "TemporalX command-line management tool"
+	app.Usage = "TemporalX client cli"
+	app.Description = `
+This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
+`
 	app.Version = Version
 	app.Authors = loadAuthors()
-	app.Flags = loadFlags()
 	app.Commands = LoadCommands()
 	return app
 }
@@ -68,17 +70,6 @@ func loadAuthors() []*cli.Author {
 		{
 			Name:  "George Xie",
 			Email: "georgex@rtradetechnologies.com",
-		},
-	}
-}
-
-func loadFlags() []cli.Flag {
-	return []cli.Flag{
-		&cli.BoolFlag{
-			Name:        "bootstrap",
-			Aliases:     []string{"bp"},
-			Usage:       "bootstrap against public ipfs",
-			Destination: &bootstrapEnabled,
 		},
 	}
 }

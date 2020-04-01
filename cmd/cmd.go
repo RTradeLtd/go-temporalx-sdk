@@ -8,7 +8,6 @@ import (
 )
 
 var (
-	bootstrapEnabled bool
 	// Version is git commit information at build time
 	Version string
 	ctx     context.Context

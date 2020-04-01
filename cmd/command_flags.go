@@ -76,6 +76,14 @@ func mnemonicFlag() *cli.StringFlag {
 	}
 }
 
+func inputFileFlag() *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "input.file",
+		Aliases: []string{"in.fi", "if"},
+		Usage:   "load data contained in file at `PATH`",
+	}
+}
+
 // takes in an argument which is a command that should be
 // loaded with a default value. This is appended to the default
 // p2p command flag list
