@@ -89,5 +89,6 @@ func LoadCommands() cli.Commands {
 	commands := cli.Commands{}
 	// load grpc client commands object
 	commands = append(commands, clientCmd.LoadClientCommands()...)
+	commands = append(commands, clientCmd.LoadUtilCommands()...)
 	return commands
 }

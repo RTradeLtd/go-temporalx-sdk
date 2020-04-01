@@ -55,7 +55,24 @@ func keyType() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "key.type",
 		Aliases: []string{"kt"},
-		Usage:   "type of key: ed25519, ecdsa, rsa",
+		Usage:   "type of key: ed25519, ecdsa, rsa, secp256k1",
+	}
+}
+
+func keySize() *cli.IntFlag {
+	return &cli.IntFlag{
+		Name:    "key.size",
+		Aliases: []string{"ks"},
+		Usage:   "size of key in bytes",
+	}
+}
+
+func mnemonicFlag() *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "save.mnemonic",
+		Aliases: []string{"sm"},
+		Usage:   "save mnemonic to `PATH` if not empty",
+		Value:   "",
 	}
 }
 
