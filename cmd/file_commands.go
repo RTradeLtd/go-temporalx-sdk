@@ -60,7 +60,7 @@ func fileUpload() *cli.Command {
 			return nil
 		},
 		Flags: []cli.Flag{
-			printProgressFlag(),
+			PrintProgressFlag(),
 			&cli.StringFlag{
 				Name:    "file.name",
 				Aliases: []string{"fn"},
@@ -107,8 +107,8 @@ func fileDownload() *cli.Command {
 			return ioutil.WriteFile(c.String("save.path"), resp.Bytes(), os.FileMode(0640))
 		},
 		Flags: []cli.Flag{
-			cidFlag("cid of file to download"),
-			printProgressFlag(),
+			CidFlag("cid of file to download"),
+			PrintProgressFlag(),
 			&cli.StringFlag{
 				Name:    "save.path",
 				Aliases: []string{"sp"},

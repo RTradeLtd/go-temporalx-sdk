@@ -4,7 +4,8 @@ import "github.com/urfave/cli/v2"
 
 // command-line flags used by multiple different tex-cli commands
 
-func multiAddrFlag(usage string) *cli.StringFlag {
+// MultiAddrFlag indicates the multi address to use
+func MultiAddrFlag(usage string) *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "multi.address",
 		Aliases: []string{"ma"},
@@ -13,7 +14,8 @@ func multiAddrFlag(usage string) *cli.StringFlag {
 	}
 }
 
-func peerIDFlag(usage string) *cli.StringFlag {
+// PeerIDFlag indicates the peerID
+func PeerIDFlag(usage string) *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "peer.id",
 		Aliases: []string{"pid"},
@@ -22,7 +24,8 @@ func peerIDFlag(usage string) *cli.StringFlag {
 	}
 }
 
-func cidFlag(usage string) *cli.StringFlag {
+// CidFlag is used to indicate the cid to proccess
+func CidFlag(usage string) *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "cid",
 		Usage:   usage,
@@ -30,7 +33,8 @@ func cidFlag(usage string) *cli.StringFlag {
 	}
 }
 
-func printProgressFlag() *cli.BoolFlag {
+// PrintProgressFlag enables printing the progress of uploads
+func PrintProgressFlag() *cli.BoolFlag {
 	return &cli.BoolFlag{
 		Name:    "print.progress",
 		Aliases: []string{"pp"},
@@ -39,7 +43,8 @@ func printProgressFlag() *cli.BoolFlag {
 	}
 }
 
-func outputFlag() *cli.StringFlag {
+// OutputFlag helps to control the style of output
+func OutputFlag() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "output",
 		Usage:   "control output, accepts 'print' or 'monitor'",
@@ -48,7 +53,8 @@ func outputFlag() *cli.StringFlag {
 	}
 }
 
-func keyName() *cli.StringFlag {
+// KeyName indicates the name of the key
+func KeyName() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "key.name",
 		Aliases: []string{"kn"},
@@ -57,7 +63,8 @@ func keyName() *cli.StringFlag {
 	}
 }
 
-func keyType() *cli.StringFlag {
+// KeyType indicates the type of key
+func KeyType() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "key.type",
 		Aliases: []string{"kt"},
@@ -66,16 +73,19 @@ func keyType() *cli.StringFlag {
 	}
 }
 
-func keySize() *cli.IntFlag {
+// KeySize indicates the size of a key, default size suitable for all but RSA
+func KeySize() *cli.IntFlag {
 	return &cli.IntFlag{
 		Name:    "key.size",
+		Value:   256,
 		Aliases: []string{"ks"},
 		Usage:   "size of key in bytes",
 		EnvVars: []string{"KEY_SIZE", "KS"},
 	}
 }
 
-func mnemonicFlag() *cli.StringFlag {
+// MnemonicFlag allows saving data as a mnemonic
+func MnemonicFlag() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "save.mnemonic",
 		Aliases: []string{"sm"},
@@ -85,7 +95,8 @@ func mnemonicFlag() *cli.StringFlag {
 	}
 }
 
-func inputFileFlag() *cli.StringFlag {
+// InputFileFlag allows reading data from a file
+func InputFileFlag() *cli.StringFlag {
 	return &cli.StringFlag{
 		Name:    "input.file",
 		Aliases: []string{"in.fi", "if"},
@@ -94,10 +105,31 @@ func inputFileFlag() *cli.StringFlag {
 	}
 }
 
+// IsHexEncodedFlag indicates if the data is hex encoded
+func IsHexEncodedFlag() *cli.BoolFlag {
+	return &cli.BoolFlag{
+		Name:    "hex.encoded",
+		Value:   false,
+		Usage:   "whether or not the key has been hex encoded",
+		EnvVars: []string{"HEX_ENCODED"},
+	}
+}
+
+// IsMnemonicEncodedFlag indicates if the data is encoded as mnemonic
+func IsMnemonicEncodedFlag() *cli.BoolFlag {
+	return &cli.BoolFlag{
+		Name:    "mnemonic.encoded",
+		Value:   true,
+		Usage:   "whether or not the key has been converted into a mnemonic",
+		EnvVars: []string{"MNEMONIC_ENCODED"},
+	}
+}
+
+// P2pFlags are used to control p2p stream
 // takes in an argument which is a command that should be
 // loaded with a default value. This is appended to the default
 // p2p command flag list
-func p2pFlags(cmdFlag *cli.StringFlag) []cli.Flag {
+func P2pFlags(cmdFlag *cli.StringFlag) []cli.Flag {
 	if cmdFlag.Value == "" {
 		panic("flag value is nil")
 	}

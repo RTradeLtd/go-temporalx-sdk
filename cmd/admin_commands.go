@@ -59,7 +59,7 @@ func refCount() *cli.Command {
 			)
 			return nil
 		},
-		Flags: []cli.Flag{cidFlag("cid to lookup")},
+		Flags: []cli.Flag{CidFlag("cid to lookup")},
 	}
 }
 

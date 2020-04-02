@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"io/ioutil"
 
 	pb "github.com/RTradeLtd/TxPB/v3/go"
 	"github.com/RTradeLtd/go-temporalx-sdk/client"
+	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	au "github.com/logrusorgru/aurora"
 	"github.com/urfave/cli/v2"
 )
@@ -19,7 +19,7 @@ func LoadKeystoreCommands() cli.Commands {
 			Name:        "keystore",
 			Usage:       "keystore commands",
 			Description: "Enables access to KeystoreAPI",
-			Subcommands: cli.Commands{keystoreCreate()},
+			Subcommands: cli.Commands{keystoreCreate(), keystoreImport()},
 		},
 	}
 }
@@ -40,19 +40,16 @@ func keystoreImport() *cli.Command {
 			if err != nil {
 				return err
 			}
-			var msg string
+			var pk crypto.PrivKey
 			if c.Bool("hex.encoded") {
-				cbytes, err := hex.DecodeString(string(contents))
+				pk, err = hexToKey(string(contents))
+			} else if c.Bool("mnemonic.encoded") {
+				pk, err = keyFromMnemonic(string(contents))
 				if err != nil {
 					return err
 				}
-				msg = string(cbytes)
 			} else {
-				msg = string(contents)
-			}
-			pk, err := keyFromMnemonic(msg)
-			if err != nil {
-				return err
+				return errors.New("invalid on-disk format for key")
 			}
 			pkBytes, err := pk.Bytes()
 			if err != nil {
@@ -69,7 +66,7 @@ func keystoreImport() *cli.Command {
 			})
 			return err
 		},
-		Flags: []cli.Flag{keyName(), inputFileFlag(), &cli.BoolFlag{Name: "hex.encoded", Value: true, Usage: "whether or not the key has been hex encoded"}},
+		Flags: []cli.Flag{KeyName(), InputFileFlag(), IsHexEncodedFlag(), IsMnemonicEncodedFlag()},
 	}
 }
 
@@ -105,6 +102,6 @@ func keystoreCreate() *cli.Command {
 			})
 			return err
 		},
-		Flags: []cli.Flag{keyName(), keyType(), keySize(), mnemonicFlag()},
+		Flags: []cli.Flag{KeyName(), KeyType(), KeySize(), MnemonicFlag()},
 	}
 }

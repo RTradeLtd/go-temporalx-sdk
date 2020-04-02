@@ -26,7 +26,7 @@ The following command creates a libp2p service called dns that forwards connecti
 	tex-cli client node p2p --target.address /ip4/127.0.0.1/tcp/53 --protocol /x/dns				
 `,
 				Action: p2pAction,
-				Flags: p2pFlags(&cli.StringFlag{
+				Flags: P2pFlags(&cli.StringFlag{
 					Name:    "command",
 					Aliases: []string{"cmd"},
 					Value:   "listen",
@@ -42,7 +42,7 @@ The following commands forwards connections from 127.0.0.1:53 to a libp2p servic
     tex-cli client node p2p --listen.address /ip4/127.0.0.1:53 --protocol /x/libdns --target.address /p2p/temporalxisbest
 `,
 				Action: p2pAction,
-				Flags: p2pFlags(&cli.StringFlag{
+				Flags: P2pFlags(&cli.StringFlag{
 					Name:    "command",
 					Aliases: []string{"cmd"},
 					Value:   "forward",
@@ -52,7 +52,7 @@ The following commands forwards connections from 127.0.0.1:53 to a libp2p servic
 				Name:   "ls",
 				Usage:  "list various p2p streams",
 				Action: p2pAction,
-				Flags: p2pFlags(&cli.StringFlag{
+				Flags: P2pFlags(&cli.StringFlag{
 					Name:    "command",
 					Aliases: []string{"cmd"},
 					Value:   "ls",
@@ -62,7 +62,7 @@ The following commands forwards connections from 127.0.0.1:53 to a libp2p servic
 				Name:   "close",
 				Usage:  "close libp2p streams",
 				Action: p2pAction,
-				Flags: p2pFlags(&cli.StringFlag{
+				Flags: P2pFlags(&cli.StringFlag{
 					Name:    "command",
 					Aliases: []string{"cmd"},
 					Value:   "close",

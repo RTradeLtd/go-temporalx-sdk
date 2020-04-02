@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sort"
 	"time"
 
 	clientCmd "github.com/RTradeLtd/go-temporalx-sdk/cmd"
@@ -35,6 +36,8 @@ func main() {
 	clientCmd.SetupCommands(ctx, cancel)
 	// generate the actual cli app
 	app := newApp()
+	sort.Sort(cli.FlagsByName(app.Flags))
+	sort.Sort(cli.CommandsByName(app.Commands))
 	// run the cli app
 	if err := app.Run(os.Args); err != nil {
 		fmt.Printf(
@@ -54,11 +57,13 @@ func newApp() *cli.App {
 	app.Description = `
 This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
 `
+	app.EnableBashCompletion = true
 	app.Compiled = time.Now()
 	app.Copyright = "(c) 2020 RTrade Technologies Ltd"
 	app.Version = Version
 	app.Authors = loadAuthors()
 	app.Commands = LoadCommands()
+
 	return app
 }
 
