@@ -69,17 +69,8 @@ This is the publicly available version of TemporalX's CLI tool intended for usin
 
 func versionPrinter() func(c *cli.Context) {
 	return func(c *cli.Context) {
-		var month, day string
-		if int(c.App.Compiled.Month()) < 10 {
-			month = fmt.Sprintf("0%v", int(c.App.Compiled.Month()))
-		} else {
-			month = fmt.Sprintf("%v", int(c.App.Compiled.Month()))
-		}
-		if c.App.Compiled.Day() < 10 {
-			day = fmt.Sprintf("0%v", c.App.Compiled.Day())
-		} else {
-			day = fmt.Sprintf("%v", c.App.Compiled.Day())
-		}
+		month := fmt.Sprintf("%02d", int(c.App.Compiled.Month()))
+		day := fmt.Sprintf("%02d", c.App.Compiled.Day())
 		fmt.Fprintf(
 			c.App.Writer,
 			"version:\t\t%s\nreleased:\t\t%v-%v-%v %v:%v\n",
