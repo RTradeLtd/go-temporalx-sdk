@@ -3,12 +3,11 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"strings"
+	"io/ioutil"
 
 	pb "github.com/RTradeLtd/TxPB/v3/go"
 	"github.com/RTradeLtd/go-temporalx-sdk/client"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/peer"
 	au "github.com/logrusorgru/aurora"
 	"github.com/urfave/cli/v2"
 )
@@ -20,8 +19,54 @@ func LoadKeystoreCommands() cli.Commands {
 			Name:        "keystore",
 			Usage:       "keystore commands",
 			Description: "Enables access to KeystoreAPI",
-			Subcommands: cli.Commands{keystoreCreate()},
+			Subcommands: cli.Commands{keystoreCreate(), keystoreImport()},
 		},
+	}
+}
+
+func keystoreImport() *cli.Command {
+	return &cli.Command{
+		Name:        "import",
+		Usage:       "import a mnemonic phrased private key",
+		Description: "enables importing private keys exported as mnemonic phrases",
+		Action: func(c *cli.Context) error {
+			if c.String("input.file") == "" {
+				return errors.New("input.file flag is empty")
+			}
+			if c.String("key.name") == "" {
+				return errors.New("key.name flag is empty")
+			}
+			contents, err := ioutil.ReadFile(c.String("input.file"))
+			if err != nil {
+				return err
+			}
+			var pk crypto.PrivKey
+			if c.Bool("hex.encoded") {
+				pk, err = hexToKey(string(contents))
+			} else if c.Bool("mnemonic.encoded") {
+				pk, err = keyFromMnemonic(string(contents))
+				if err != nil {
+					return err
+				}
+			} else {
+				return errors.New("invalid on-disk format for key")
+			}
+			pkBytes, err := pk.Bytes()
+			if err != nil {
+				return err
+			}
+			cl, err := client.NewClient(optsFromFlags(c))
+			if err != nil {
+				return err
+			}
+			_, err = cl.Keystore(ctx, &pb.KeystoreRequest{
+				RequestType: pb.KSREQTYPE_KS_PUT,
+				PrivateKey:  pkBytes,
+				Name:        c.String("key.name"),
+			})
+			return err
+		},
+		Flags: []cli.Flag{KeyName(), InputFileFlag(), IsHexEncodedFlag(), IsMnemonicEncodedFlag()},
 	}
 }
 
@@ -37,30 +82,7 @@ func keystoreCreate() *cli.Command {
 			if err != nil {
 				return err
 			}
-			var pk crypto.PrivKey
-			switch strings.ToLower(c.String("key.type")) {
-			case "rsa":
-				pk, _, err = crypto.GenerateKeyPair(
-					crypto.RSA,
-					4096,
-				)
-			case "ed25519":
-				pk, _, err = crypto.GenerateKeyPair(
-					crypto.Ed25519,
-					256,
-				)
-			case "ecdsa":
-				pk, _, err = crypto.GenerateKeyPair(
-					crypto.ECDSA,
-					256,
-				)
-			default:
-				return errors.New("key.type flag is empty or contains incorrect value")
-			}
-			if err != nil {
-				return err
-			}
-			pid, err := peer.IDFromPrivateKey(pk)
+			pk, pid, err := createIPFSKey(c.String("key.type"), c.Int("key.size"))
 			if err != nil {
 				return err
 			}
@@ -80,6 +102,6 @@ func keystoreCreate() *cli.Command {
 			})
 			return err
 		},
-		Flags: []cli.Flag{keyName(), keyType()},
+		Flags: []cli.Flag{KeyName(), KeyType(), KeySize(), MnemonicFlag()},
 	}
 }

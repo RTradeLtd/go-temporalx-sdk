@@ -4,13 +4,12 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sort"
+	"time"
 
 	clientCmd "github.com/RTradeLtd/go-temporalx-sdk/cmd"
 	au "github.com/logrusorgru/aurora"
 	"github.com/urfave/cli/v2"
-
-	// auto register pprof handlers
-	_ "net/http/pprof"
 )
 
 // This is the main command line file for TemporalX
@@ -37,6 +36,8 @@ func main() {
 	clientCmd.SetupCommands(ctx, cancel)
 	// generate the actual cli app
 	app := newApp()
+	sort.Sort(cli.FlagsByName(app.Flags))
+	sort.Sort(cli.CommandsByName(app.Commands))
 	// run the cli app
 	if err := app.Run(os.Args); err != nil {
 		fmt.Printf(
@@ -49,14 +50,38 @@ func main() {
 }
 
 func newApp() *cli.App {
+	cli.VersionPrinter = versionPrinter()
 	app := cli.NewApp()
 	app.Name = "tex-cli"
-	app.Usage = "TemporalX command-line management tool"
+	app.Usage = "TemporalX client cli"
+	app.Description = `
+This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
+`
+	app.EnableBashCompletion = true
+	app.Compiled = time.Now()
+	app.Copyright = "(c) 2020 RTrade Technologies Ltd"
 	app.Version = Version
 	app.Authors = loadAuthors()
-	app.Flags = loadFlags()
 	app.Commands = LoadCommands()
+
 	return app
+}
+
+func versionPrinter() func(c *cli.Context) {
+	return func(c *cli.Context) {
+		month := fmt.Sprintf("%02d", int(c.App.Compiled.Month()))
+		day := fmt.Sprintf("%02d", c.App.Compiled.Day())
+		fmt.Fprintf(
+			c.App.Writer,
+			"version:\t\t%s\nreleased:\t\t%v-%v-%v %v:%v\n",
+			c.App.Version,
+			c.App.Compiled.Year(),
+			month,
+			day,
+			c.App.Compiled.Hour(),
+			c.App.Compiled.Minute(),
+		)
+	}
 }
 
 func loadAuthors() []*cli.Author {
@@ -72,22 +97,12 @@ func loadAuthors() []*cli.Author {
 	}
 }
 
-func loadFlags() []cli.Flag {
-	return []cli.Flag{
-		&cli.BoolFlag{
-			Name:        "bootstrap",
-			Aliases:     []string{"bp"},
-			Usage:       "bootstrap against public ipfs",
-			Destination: &bootstrapEnabled,
-		},
-	}
-}
-
 // LoadCommands returns the root commands object containing
 // access to all cli functionality
 func LoadCommands() cli.Commands {
 	commands := cli.Commands{}
 	// load grpc client commands object
 	commands = append(commands, clientCmd.LoadClientCommands()...)
+	commands = append(commands, clientCmd.LoadUtilCommands()...)
 	return commands
 }

@@ -59,7 +59,7 @@ func peerCount() *cli.Command {
 			}
 			return nil
 		},
-		Flags: []cli.Flag{outputFlag()},
+		Flags: []cli.Flag{OutputFlag()},
 	}
 }
 
@@ -78,7 +78,7 @@ func peerConnect() *cli.Command {
 			}
 			return cl.ConnectToPeer(ctx, c.String("multi.address"))
 		},
-		Flags: []cli.Flag{multiAddrFlag("the multiaddress to connect to")},
+		Flags: []cli.Flag{MultiAddrFlag("the multiaddress to connect to")},
 	}
 }
 
@@ -97,7 +97,7 @@ func peerDisconnect() *cli.Command {
 			}
 			return cl.DisconnectFromPeer(ctx, c.String("peer.id"))
 		},
-		Flags: []cli.Flag{peerIDFlag("the remote libp2p peer id")},
+		Flags: []cli.Flag{PeerIDFlag("the remote libp2p peer id")},
 	}
 }
 
@@ -132,6 +132,6 @@ func peerIsConnected() *cli.Command {
 			}
 			return nil
 		},
-		Flags: []cli.Flag{peerIDFlag("the remote libp2p peer id"), outputFlag()},
+		Flags: []cli.Flag{PeerIDFlag("the remote libp2p peer id"), OutputFlag()},
 	}
 }

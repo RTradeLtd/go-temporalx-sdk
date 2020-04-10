@@ -47,7 +47,7 @@ func apiStatus() *cli.Command {
 			}
 			return nil
 		},
-		Flags: []cli.Flag{outputFlag()},
+		Flags: []cli.Flag{OutputFlag()},
 	}
 }
 
@@ -68,6 +68,6 @@ func apiVersion() *cli.Command {
 			fmt.Printf("%s\n", au.Bold(au.Green(resp.GetVersion())))
 			return nil
 		},
-		Flags: []cli.Flag{outputFlag()},
+		Flags: []cli.Flag{OutputFlag()},
 	}
 }

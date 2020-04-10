@@ -53,7 +53,7 @@ func namesysPublish() *cli.Command {
 			})
 			return err
 		},
-		Flags: []cli.Flag{keyName(), cidFlag("the cid to publish")},
+		Flags: []cli.Flag{KeyName(), CidFlag("the cid to publish")},
 	}
 }
 
@@ -85,6 +85,6 @@ func namesysResolve() *cli.Command {
 			)
 			return nil
 		},
-		Flags: []cli.Flag{cidFlag("the cid to resolve")},
+		Flags: []cli.Flag{CidFlag("the cid to resolve")},
 	}
 }
