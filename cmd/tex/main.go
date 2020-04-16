@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"time"
 
 	clientCmd "github.com/RTradeLtd/go-temporalx-sdk/cmd"
 	au "github.com/logrusorgru/aurora"
@@ -60,7 +59,6 @@ func newApp() *cli.App {
 This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
 `
 	app.EnableBashCompletion = true
-	app.Compiled = time.Now()
 	app.Copyright = "(c) 2020 RTrade Technologies Ltd"
 	app.Version = Version
 	app.Authors = loadAuthors()
