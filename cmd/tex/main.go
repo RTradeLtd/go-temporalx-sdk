@@ -23,8 +23,10 @@ var (
 	endpointAddress, tlsFilePath, tlsKeyPath string
 	// Version is git commit information at build time
 	Version string
-	ctx     context.Context
-	cancel  context.CancelFunc
+	// CompileDate is the date at which this binary was compiled
+	CompileDate string
+	ctx         context.Context
+	cancel      context.CancelFunc
 )
 
 func main() {
@@ -69,17 +71,11 @@ This is the publicly available version of TemporalX's CLI tool intended for usin
 
 func versionPrinter() func(c *cli.Context) {
 	return func(c *cli.Context) {
-		month := fmt.Sprintf("%02d", int(c.App.Compiled.Month()))
-		day := fmt.Sprintf("%02d", c.App.Compiled.Day())
 		fmt.Fprintf(
 			c.App.Writer,
-			"version:\t\t%s\nreleased:\t\t%v-%v-%v %v:%v\n",
+			"version:\t\t%s\nreleased:\t\t%s\n",
 			c.App.Version,
-			c.App.Compiled.Year(),
-			month,
-			day,
-			c.App.Compiled.Hour(),
-			c.App.Compiled.Minute(),
+			CompileDate,
 		)
 	}
 }

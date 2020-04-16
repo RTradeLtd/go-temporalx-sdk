@@ -1,10 +1,10 @@
 VERSION=`git describe --tags`
-
+DATE=`date +%Y.%m.%d.%H%M%S`
 # build the cli
 .PHONY: cli
 cli:
 	rm -f tex-cli
-	go build -ldflags "-X main.Version=$(VERSION)" -o ./tex-cli ./cmd/tex 
+	go build -ldflags "-X main.Version=$(VERSION) -X main.CompileDate=$(DATE)" -o ./tex-cli ./cmd/tex 
 
 .PHONY: release-cli
 release-cli:
