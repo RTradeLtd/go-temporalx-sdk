@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"time"
 
 	clientCmd "github.com/RTradeLtd/go-temporalx-sdk/cmd"
 	au "github.com/logrusorgru/aurora"
@@ -23,8 +22,10 @@ var (
 	endpointAddress, tlsFilePath, tlsKeyPath string
 	// Version is git commit information at build time
 	Version string
-	ctx     context.Context
-	cancel  context.CancelFunc
+	// CompileDate is the date at which this binary was compiled
+	CompileDate string
+	ctx         context.Context
+	cancel      context.CancelFunc
 )
 
 func main() {
@@ -58,7 +59,6 @@ func newApp() *cli.App {
 This is the publicly available version of TemporalX's CLI tool intended for using the gRPC API exposed by TemporalX, stripped of all configuration+service management
 `
 	app.EnableBashCompletion = true
-	app.Compiled = time.Now()
 	app.Copyright = "(c) 2020 RTrade Technologies Ltd"
 	app.Version = Version
 	app.Authors = loadAuthors()
@@ -69,17 +69,11 @@ This is the publicly available version of TemporalX's CLI tool intended for usin
 
 func versionPrinter() func(c *cli.Context) {
 	return func(c *cli.Context) {
-		month := fmt.Sprintf("%02d", int(c.App.Compiled.Month()))
-		day := fmt.Sprintf("%02d", c.App.Compiled.Day())
 		fmt.Fprintf(
 			c.App.Writer,
-			"version:\t\t%s\nreleased:\t\t%v-%v-%v %v:%v\n",
+			"version:\t\t%s\nreleased:\t\t%s\n",
 			c.App.Version,
-			c.App.Compiled.Year(),
-			month,
-			day,
-			c.App.Compiled.Hour(),
-			c.App.Compiled.Minute(),
+			CompileDate,
 		)
 	}
 }
