@@ -31,7 +31,7 @@ func LoadClientCommands() cli.Commands {
 					Name:    "endpoint.address",
 					Aliases: []string{"ea"},
 					Usage:   "temporalx endpoint address",
-					Value:   "127.0.0.1",
+					Value:   "127.0.0.1:9090",
 				},
 				&cli.BoolFlag{
 					Name:  "insecure",
