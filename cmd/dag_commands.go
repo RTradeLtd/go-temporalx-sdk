@@ -25,8 +25,10 @@ func loadDagCommand() *cli.Command {
 						return err
 					}
 					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
-						RequestType: pb.DAGREQTYPE_DAG_PUT,
-						Data:        []byte(c.String("data")),
+						RequestType:         pb.DAGREQTYPE_DAG_PUT,
+						Data:                []byte(c.String("data")),
+						ObjectEncoding:      c.String("object.encoding"),
+						SerializationFormat: c.String("serialization.format"),
 					})
 					if err != nil {
 						return err
@@ -38,7 +40,38 @@ func loadDagCommand() *cli.Command {
 					)
 					return nil
 				},
-				Flags: []cli.Flag{DataFlag("data to store inside the dag")},
+				Flags: []cli.Flag{
+					DataFlag("data to store inside the dag"),
+					SerializationFormatFlag(),
+					ObjectEncodingFlag(),
+				},
+			},
+			&cli.Command{
+				Name:        "get",
+				Usage:       "get the contents of the IPLD object",
+				Description: "this is essentially like the unix `cat` command, except for IPLD",
+				Action: func(c *cli.Context) error {
+					cl, err := client.NewClient(optsFromFlags(c))
+					if err != nil {
+						return err
+					}
+					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
+						RequestType: pb.DAGREQTYPE_DAG_GET,
+						Hash:        c.String("cid"),
+					})
+					if err != nil {
+						return err
+					}
+					fmt.Printf(
+						"%s: %s\n",
+						au.Bold(au.Green("data")),
+						au.Bold(au.White(string(resp.GetRawData()))),
+					)
+					return nil
+				},
+				Flags: []cli.Flag{
+					CidFlag("the ipld node to retrieve"),
+				},
 			},
 			&cli.Command{
 				Name:  "add-links",
@@ -50,7 +83,7 @@ func loadDagCommand() *cli.Command {
 					}
 					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
 						RequestType: pb.DAGREQTYPE_DAG_ADD_LINKS,
-						Hash:        c.String("root.cid"),
+						Hash:        c.String("cid"),
 						Links: map[string]string{
 							c.String("link.name"): c.String("link.cid"),
 						},

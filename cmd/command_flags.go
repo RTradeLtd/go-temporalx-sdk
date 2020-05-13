@@ -152,6 +152,26 @@ func DataFlag(usage string) *cli.StringFlag {
 	}
 }
 
+// ObjectEncodingFlag enables specifying alternate encoding formats for creating objects
+func ObjectEncodingFlag() *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "object.encoding",
+		Aliases: []string{"obj.enc", "oe"},
+		Usage:   "the type of encoding used to create an object",
+		Value:   "raw",
+	}
+}
+
+// SerializationFormatFlag enables specifying alternate serialization formats
+func SerializationFormatFlag() *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "serialization.format",
+		Aliases: []string{"serial.form", "sfmt", "st"},
+		Usage:   "the type of serialization to use when creating the object",
+		Value:   "raw",
+	}
+}
+
 // P2pFlags are used to control p2p stream
 // takes in an argument which is a command that should be
 // loaded with a default value. This is appended to the default
