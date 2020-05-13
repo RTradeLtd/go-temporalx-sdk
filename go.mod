@@ -7,6 +7,7 @@ require (
 	github.com/bonedaddy/nemonify v0.0.0-20200401092711-1e348e4c9242
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
+	github.com/ipfs/go-cid v0.0.5
 	github.com/libp2p/go-libp2p-core v0.5.0
 	github.com/logrusorgru/aurora v0.0.0-20200102142835-e9ef32dff381
 	github.com/pkg/errors v0.9.1 // indirect

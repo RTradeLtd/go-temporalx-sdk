@@ -125,6 +125,33 @@ func IsMnemonicEncodedFlag() *cli.BoolFlag {
 	}
 }
 
+// LinkNameFlag indicates the name of a link in IPLD object management
+func LinkNameFlag(usage string) *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "link.name",
+		Aliases: []string{"ln"},
+		Usage:   usage,
+	}
+}
+
+// LinkCidFlag indicates the cid of a link
+func LinkCidFlag(usage string) *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "link.cid",
+		Aliases: []string{"lc"},
+		Usage:   usage,
+	}
+}
+
+// DataFlag indicates some arbitrary string data
+func DataFlag(usage string) *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "data",
+		Aliases: []string{"d"},
+		Usage:   usage,
+	}
+}
+
 // P2pFlags are used to control p2p stream
 // takes in an argument which is a command that should be
 // loaded with a default value. This is appended to the default

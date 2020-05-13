@@ -8,8 +8,6 @@ github.com/RTradeLtd/entropy-mnemonics v0.0.0-20170316012907-7b01a644a636/go.mod
 github.com/RTradeLtd/go-libp2p-tls v0.2.2 h1:GhYeScb2CDCzTfxnGvnGmHbUy4N6fMj2fCekLm/a43E=
 github.com/RTradeLtd/go-libp2p-tls v0.2.2/go.mod h1:IRcUL004SnEu2eAA8amf7jxaimBeS9cKt9uq7jguzqs=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
-github.com/bonedaddy/nemonify v0.0.0-20191121000311-3c320bba7855 h1:FTo7zwDPmOE3J90gZU5h7iLK4gvC0zle2gN/tdpV8mk=
-github.com/bonedaddy/nemonify v0.0.0-20191121000311-3c320bba7855/go.mod h1:/qmzHtODNDO75Q4zr4Kz7eLOPgzBbvnxn8Ro03YV/u4=
 github.com/bonedaddy/nemonify v0.0.0-20200401092711-1e348e4c9242 h1:+pVY0tKRuOz+8XyHsunWXy3j++YO/xIyuruPFGdhMBs=
 github.com/bonedaddy/nemonify v0.0.0-20200401092711-1e348e4c9242/go.mod h1:/qmzHtODNDO75Q4zr4Kz7eLOPgzBbvnxn8Ro03YV/u4=
 github.com/btcsuite/btcd v0.20.1-beta h1:Ik4hyJqN8Jfyv3S4AGBOmyouMsYE3EdYODkMbQjwPGw=
