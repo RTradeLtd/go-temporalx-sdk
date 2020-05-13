@@ -86,19 +86,21 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					var cids []string
 					for _, link := range resp.GetLinks() {
 						gocid, err := cid.Parse(link.GetHash())
 						if err != nil {
 							return err
 						}
-						cids = append(cids, gocid.String())
+						fmt.Printf(
+							"%s: %s\n\t- %s: %s\n\t- %s: %v\n",
+							au.Bold(au.Green("name")),
+							au.Bold(au.White(link.GetName())),
+							au.Bold(au.Green("cid")),
+							au.Bold(au.White(gocid.String())),
+							au.Bold(au.Green("size")),
+							au.Bold(au.White(link.GetSize_())),
+						)
 					}
-					fmt.Printf(
-						"%s: %s\n",
-						au.Bold(au.Green("link(s)")),
-						au.Bold(au.White(cids)),
-					)
 					return nil
 				},
 				Flags: []cli.Flag{CidFlag("ipld cid to get links from")},
