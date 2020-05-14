@@ -131,6 +131,7 @@ func LinkNameFlag(usage string) *cli.StringFlag {
 		Name:    "link.name",
 		Aliases: []string{"ln"},
 		Usage:   usage,
+		EnvVars: []string{"TEX_LINK_NAME"},
 	}
 }
 
@@ -140,6 +141,7 @@ func LinkCidFlag(usage string) *cli.StringFlag {
 		Name:    "link.cid",
 		Aliases: []string{"lc"},
 		Usage:   usage,
+		EnvVars: []string{"TEX_LINK_CID"},
 	}
 }
 
@@ -149,6 +151,7 @@ func DataFlag(usage string) *cli.StringFlag {
 		Name:    "data",
 		Aliases: []string{"d"},
 		Usage:   usage,
+		EnvVars: []string{"TEX_DATA"},
 	}
 }
 
@@ -169,6 +172,18 @@ func SerializationFormatFlag() *cli.StringFlag {
 		Aliases: []string{"serial.form", "sfmt", "st"},
 		Usage:   "the type of serialization to use when creating the object",
 		Value:   "raw",
+		EnvVars: []string{"TEX_SERIALIZATION_FORMAT", "TEX_SERIAL_FORM"},
+	}
+}
+
+// MultiHashFlag enables specifying the multihash to use
+func MultiHashFlag() *cli.StringFlag {
+	return &cli.StringFlag{
+		Name:    "multihash",
+		Aliases: []string{"mhash", "mh"},
+		Usage:   "specify the multihash to use in object  creation",
+		Value:   "sha2-256",
+		EnvVars: []string{"TEX_MULTI_HASH"},
 	}
 }
 

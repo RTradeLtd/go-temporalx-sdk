@@ -1,12 +1,9 @@
 package cmd
 
 import (
-	"fmt"
-
 	pb "github.com/RTradeLtd/TxPB/v3/go"
 	"github.com/RTradeLtd/go-temporalx-sdk/client"
 	"github.com/ipfs/go-cid"
-	au "github.com/logrusorgru/aurora"
 	"github.com/urfave/cli/v2"
 )
 
@@ -29,14 +26,14 @@ func loadDagCommand() *cli.Command {
 						Data:                []byte(c.String("data")),
 						ObjectEncoding:      c.String("object.encoding"),
 						SerializationFormat: c.String("serialization.format"),
+						Hash:                c.String("multihash"),
 					})
 					if err != nil {
 						return err
 					}
-					fmt.Printf(
+					print(
 						"%s: %s\n",
-						au.Bold(au.Green("hash(es)")),
-						au.Bold(au.White(resp.GetHashes())),
+						getArgs("hash(es)", resp.GetHashes()),
 					)
 					return nil
 				},
@@ -44,6 +41,7 @@ func loadDagCommand() *cli.Command {
 					DataFlag("data to store inside the dag"),
 					SerializationFormatFlag(),
 					ObjectEncodingFlag(),
+					MultiHashFlag(),
 				},
 			},
 			&cli.Command{
@@ -62,10 +60,11 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					fmt.Printf(
+					print(
 						"%s: %s\n",
-						au.Bold(au.Green("data")),
-						au.Bold(au.White(string(resp.GetRawData()))),
+						getArgs(
+							"data", string(resp.GetRawData()),
+						),
 					)
 					return nil
 				},
@@ -91,10 +90,9 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					fmt.Printf(
+					print(
 						"%s: %s\n",
-						au.Bold(au.Green("hash(es)")),
-						au.Bold(au.White(resp.GetHashes())),
+						getArgs("hash(es)", resp.GetHashes()),
 					)
 					return nil
 				},
@@ -124,14 +122,11 @@ func loadDagCommand() *cli.Command {
 						if err != nil {
 							return err
 						}
-						fmt.Printf(
+						print(
 							"%s: %s\n\t- %s: %s\n\t- %s: %v\n",
-							au.Bold(au.Green("name")),
-							au.Bold(au.White(link.GetName())),
-							au.Bold(au.Green("cid")),
-							au.Bold(au.White(gocid.String())),
-							au.Bold(au.Green("size")),
-							au.Bold(au.White(link.GetSize_())),
+							getArgs(
+								"name", link.GetName(), "cid", gocid.String(), "size", link.GetSize_(),
+							),
 						)
 					}
 					return nil
