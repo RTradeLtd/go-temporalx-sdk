@@ -3,11 +3,13 @@ package cmd
 import (
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"strings"
 
 	nemonify "github.com/bonedaddy/nemonify"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/peer"
+	au "github.com/logrusorgru/aurora"
 )
 
 // createIPFSKey is a helper function to create an IPFS key
@@ -63,4 +65,31 @@ func keyFromMnemonic(msg string) (crypto.PrivKey, error) {
 		return nil, err
 	}
 	return crypto.UnmarshalPrivateKey([]byte(unphrased))
+}
+
+// short hand for printing out success results to stdout
+// requires a slice and a 2 element array
+func print(fmtStr string, args [][2]interface{}) {
+	var parts []interface{}
+	for _, pair := range args {
+		parts = append(parts, au.Bold(au.Green(pair[0])), au.Bold(au.White(pair[1])))
+	}
+	fmt.Printf(
+		fmtStr,
+		parts...,
+	)
+}
+
+// takes input and formats according to how print expects
+func getArgs(args ...interface{}) (ret [][2]interface{}) {
+	if len(args)%2 != 0 {
+		panic("bad args")
+	}
+	for i := 0; i < len(args); i += 2 {
+		var arg [2]interface{}
+		arg[0] = args[i]
+		arg[1] = args[i+1]
+		ret = append(ret, arg)
+	}
+	return
 }

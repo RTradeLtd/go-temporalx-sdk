@@ -27,7 +27,7 @@ func loadNodeCommands() cli.Commands {
 						peerDisconnect(),
 						peerIsConnected(),
 					},
-				}, loadP2PCommand()},
+				}, loadP2PCommand(), loadDagCommand(), loadBlockCommand()},
 		},
 	}
 }
