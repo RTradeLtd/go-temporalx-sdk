@@ -94,7 +94,7 @@ func p2pAction(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	resp, err := cl.NodeAPIClient.P2P(ctx, &pb.P2PRequest{
+	resp, err := cl.NodeAPIClient.P2P(c.Context, &pb.P2PRequest{
 		RequestType:          cmd,
 		All:                  c.Bool("all"),
 		Verbose:              c.Bool("verbose"),

@@ -59,7 +59,7 @@ func keystoreImport() *cli.Command {
 			if err != nil {
 				return err
 			}
-			_, err = cl.Keystore(ctx, &pb.KeystoreRequest{
+			_, err = cl.Keystore(c.Context, &pb.KeystoreRequest{
 				RequestType: pb.KSREQTYPE_KS_PUT,
 				PrivateKey:  pkBytes,
 				Name:        c.String("key.name"),
@@ -95,7 +95,7 @@ func keystoreCreate() *cli.Command {
 			if err != nil {
 				return err
 			}
-			_, err = cl.Keystore(ctx, &pb.KeystoreRequest{
+			_, err = cl.Keystore(c.Context, &pb.KeystoreRequest{
 				RequestType: pb.KSREQTYPE_KS_PUT,
 				PrivateKey:  pkBytes,
 				Name:        c.String("key.name"),

@@ -40,14 +40,14 @@ func namesysPublish() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.Keystore(ctx, &pb.KeystoreRequest{
+			resp, err := cl.Keystore(c.Context, &pb.KeystoreRequest{
 				RequestType: pb.KSREQTYPE_KS_GET,
 				Name:        c.String("key.name"),
 			})
 			if err != nil {
 				return err
 			}
-			_, err = cl.NameSysPublish(ctx, &pb.NameSysPublishRequest{
+			_, err = cl.NameSysPublish(c.Context, &pb.NameSysPublishRequest{
 				PrivateKey: resp.GetPrivateKey(),
 				Value:      c.String("cid"),
 			})
@@ -69,7 +69,7 @@ func namesysResolve() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.NameSysResolve(ctx, &pb.NameSysResolveRequest{
+			resp, err := cl.NameSysResolve(c.Context, &pb.NameSysResolveRequest{
 				Name: c.String("cid"),
 			})
 			if err != nil {

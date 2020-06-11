@@ -10,15 +10,11 @@ import (
 var (
 	// Version is git commit information at build time
 	Version string
-	ctx     context.Context
-	cancel  context.CancelFunc
 )
 
 // SetupCommands MUST be called to properly setup the commands repository
-func SetupCommands(cctx context.Context, ccancel context.CancelFunc) {
-	ctx = cctx
-	cancel = ccancel
-}
+// DEPRECATED: is now a no-op
+func SetupCommands(cctx context.Context, ccancel context.CancelFunc) {}
 
 func optsFromFlags(c *cli.Context) client.Opts {
 	return client.Opts{

@@ -41,7 +41,7 @@ func peerCount() *cli.Command {
 			if err != nil {
 				return err
 			}
-			peerCount, err := cl.GetPeerCount(ctx)
+			peerCount, err := cl.GetPeerCount(c.Context)
 			if err != nil {
 				return err
 			}
@@ -76,7 +76,7 @@ func peerConnect() *cli.Command {
 			if err != nil {
 				return err
 			}
-			return cl.ConnectToPeer(ctx, c.String("multi.address"))
+			return cl.ConnectToPeer(c.Context, c.String("multi.address"))
 		},
 		Flags: []cli.Flag{MultiAddrFlag("the multiaddress to connect to")},
 	}
@@ -95,7 +95,7 @@ func peerDisconnect() *cli.Command {
 			if err != nil {
 				return err
 			}
-			return cl.DisconnectFromPeer(ctx, c.String("peer.id"))
+			return cl.DisconnectFromPeer(c.Context, c.String("peer.id"))
 		},
 		Flags: []cli.Flag{PeerIDFlag("the remote libp2p peer id")},
 	}
@@ -114,7 +114,7 @@ func peerIsConnected() *cli.Command {
 			if err != nil {
 				return err
 			}
-			connected, err := cl.Connected(ctx, c.String("peer.id"))
+			connected, err := cl.Connected(c.Context, c.String("peer.id"))
 			if err != nil {
 				return err
 			}

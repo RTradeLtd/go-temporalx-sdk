@@ -21,7 +21,7 @@ func loadBlockCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.Blockstore(ctx, &pb.BlockstoreRequest{
+					resp, err := cl.Blockstore(c.Context, &pb.BlockstoreRequest{
 						RequestType: pb.BSREQTYPE_BS_PUT,
 						Data:        [][]byte{[]byte(c.String("data"))},
 						HashFunc:    c.String("multihash"),
@@ -50,7 +50,7 @@ func loadBlockCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.Blockstore(ctx, &pb.BlockstoreRequest{
+					resp, err := cl.Blockstore(c.Context, &pb.BlockstoreRequest{
 						RequestType: pb.BSREQTYPE_BS_GET,
 						Cids:        []string{c.String("cid")},
 					})
@@ -78,7 +78,7 @@ func loadBlockCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.Blockstore(ctx, &pb.BlockstoreRequest{
+					resp, err := cl.Blockstore(c.Context, &pb.BlockstoreRequest{
 						RequestType: pb.BSREQTYPE_BS_GET_STATS,
 						Cids:        []string{c.String("cid")},
 					})
@@ -105,7 +105,7 @@ func loadBlockCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.Blockstore(ctx, &pb.BlockstoreRequest{
+					resp, err := cl.Blockstore(c.Context, &pb.BlockstoreRequest{
 						RequestType: pb.BSREQTYPE_BS_HAS,
 						Cids:        []string{c.String("cid")},
 					})

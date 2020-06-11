@@ -30,7 +30,7 @@ func apiStatus() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.Status(ctx, &pb.Empty{})
+			resp, err := cl.Status(c.Context, &pb.Empty{})
 			if err != nil {
 				return err
 			}
@@ -61,7 +61,7 @@ func apiVersion() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.Version(ctx, &pb.Empty{})
+			resp, err := cl.Version(c.Context, &pb.Empty{})
 			if err != nil {
 				return err
 			}

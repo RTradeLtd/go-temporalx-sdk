@@ -21,7 +21,7 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
+					resp, err := cl.NodeAPIClient.Dag(c.Context, &pb.DagRequest{
 						RequestType:         pb.DAGREQTYPE_DAG_PUT,
 						Data:                []byte(c.String("data")),
 						ObjectEncoding:      c.String("object.encoding"),
@@ -53,7 +53,7 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
+					resp, err := cl.NodeAPIClient.Dag(c.Context, &pb.DagRequest{
 						RequestType: pb.DAGREQTYPE_DAG_GET,
 						Hash:        c.String("cid"),
 					})
@@ -80,7 +80,7 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
+					resp, err := cl.NodeAPIClient.Dag(c.Context, &pb.DagRequest{
 						RequestType: pb.DAGREQTYPE_DAG_ADD_LINKS,
 						Hash:        c.String("cid"),
 						Links: map[string]string{
@@ -110,7 +110,7 @@ func loadDagCommand() *cli.Command {
 					if err != nil {
 						return err
 					}
-					resp, err := cl.NodeAPIClient.Dag(ctx, &pb.DagRequest{
+					resp, err := cl.NodeAPIClient.Dag(c.Context, &pb.DagRequest{
 						RequestType: pb.DAGREQTYPE_DAG_GET_LINKS,
 						Hash:        c.String("cid"),
 					})

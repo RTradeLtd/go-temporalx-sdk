@@ -44,7 +44,7 @@ func fileUpload() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.UploadFile(ctx, file, stats.Size(), &pb.UploadOptions{
+			resp, err := cl.UploadFile(c.Context, file, stats.Size(), &pb.UploadOptions{
 				MultiHash: c.String("multi.hash"),
 				Layout:    c.String("layout"),
 				Chunker:   c.String("chunker"),
@@ -100,7 +100,7 @@ func fileDownload() *cli.Command {
 			if c.String("save.path") == "" {
 				return errors.New("save.path flag empty")
 			}
-			resp, err := cl.DownloadFile(ctx, &pb.DownloadRequest{Hash: c.String("cid")}, c.Bool("print.progress"))
+			resp, err := cl.DownloadFile(c.Context, &pb.DownloadRequest{Hash: c.String("cid")}, c.Bool("print.progress"))
 			if err != nil {
 				return err
 			}

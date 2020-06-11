@@ -24,23 +24,20 @@ var (
 	Version string
 	// CompileDate is the date at which this binary was compiled
 	CompileDate string
-	ctx         context.Context
-	cancel      context.CancelFunc
 )
 
 func main() {
 	// initialize context
-	ctx, cancel = context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(context.Background())
 	// defer cancel to make sure that we don't get a context leak
 	// calling cancel() multiple times wont cause issues
 	defer cancel()
-	clientCmd.SetupCommands(ctx, cancel)
 	// generate the actual cli app
 	app := newApp()
 	sort.Sort(cli.FlagsByName(app.Flags))
 	sort.Sort(cli.CommandsByName(app.Commands))
 	// run the cli app
-	if err := app.Run(os.Args); err != nil {
+	if err := app.RunContext(ctx, os.Args); err != nil {
 		fmt.Printf(
 			"%s %s\n",
 			au.Bold(au.Red("error encountered:")),

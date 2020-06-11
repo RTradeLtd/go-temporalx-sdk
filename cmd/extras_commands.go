@@ -42,7 +42,7 @@ func enableExtras() *cli.Command {
 			if extrasName == "" {
 				return errors.New("extras.name flag is empty")
 			}
-			_, err = cl.Extras(ctx, &pb.ExtrasRequest{
+			_, err = cl.Extras(c.Context, &pb.ExtrasRequest{
 				RequestType:   pb.EXTRASREQTYPE_EX_ENABLE,
 				ExtrasFeature: pb.EXTRASTYPE(pb.EXTRASTYPE_value[extrasName]),
 			})
@@ -63,7 +63,7 @@ func disableExtras() *cli.Command {
 			if extrasName == "" {
 				return errors.New("extras.name flag is empty")
 			}
-			_, err = cl.Extras(ctx, &pb.ExtrasRequest{
+			_, err = cl.Extras(c.Context, &pb.ExtrasRequest{
 				RequestType:   pb.EXTRASREQTYPE_EX_DISABLE,
 				ExtrasFeature: pb.EXTRASTYPE(pb.EXTRASTYPE_value[extrasName]),
 			})

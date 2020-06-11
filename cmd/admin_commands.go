@@ -48,7 +48,7 @@ func refCount() *cli.Command {
 				return err
 			}
 			admin := pb.NewAdminAPIClient(conn)
-			resp, err := admin.RefCount(ctx, &pb.RefCountRequest{Cids: []string{c.String("cid")}})
+			resp, err := admin.RefCount(c.Context, &pb.RefCountRequest{Cids: []string{c.String("cid")}})
 			if err != nil {
 				return err
 			}
@@ -85,7 +85,7 @@ func gcControl() *cli.Command {
 			}
 			operation := strings.ToUpper(c.String("operation"))
 			admin := pb.NewAdminAPIClient(conn)
-			resp, err := admin.ManageGC(ctx, &pb.ManageGCRequest{
+			resp, err := admin.ManageGC(c.Context, &pb.ManageGCRequest{
 				Type: pb.GCREQTYPE(
 					pb.GCREQTYPE_value[operation],
 				),

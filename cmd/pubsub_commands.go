@@ -48,7 +48,7 @@ func pubSubPublish() *cli.Command {
 				return err
 			}
 			return cl.PSPublish(
-				ctx,
+				c.Context,
 				pubSubTopic,
 				[]byte(pubSubData),
 			)
@@ -72,7 +72,7 @@ func pubSubSubscribe() *cli.Command {
 			errChan := make(chan error, 1)
 			go func() {
 				if err := cl.PSSubscribe(
-					ctx,
+					c.Context,
 					pubSubTopic,
 					pubSubDiscover,
 					nil,
@@ -84,7 +84,7 @@ func pubSubSubscribe() *cli.Command {
 			select {
 			case <-errChan:
 				return err
-			case <-ctx.Done():
+			case <-c.Context.Done():
 				return nil
 			}
 		},
@@ -104,7 +104,7 @@ func pubSubListPeers() *cli.Command {
 			if err != nil {
 				return err
 			}
-			peers, err := cl.PSListPeers(ctx, pubSubTopic)
+			peers, err := cl.PSListPeers(c.Context, pubSubTopic)
 			if err != nil {
 				return err
 			}
@@ -132,7 +132,7 @@ func pubSubListTopics() *cli.Command {
 			if err != nil {
 				return err
 			}
-			resp, err := cl.PSGetTopics(ctx)
+			resp, err := cl.PSGetTopics(c.Context)
 			if err != nil {
 				return err
 			}
